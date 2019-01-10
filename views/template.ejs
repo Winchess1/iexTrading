@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            width: 100%;
+            position: relative;
+        }
+
+        #selector {
+            width: 100px;
+            position: relative;
+            font-size: 13px
+        }
+
+        .flex-container {
+            display: flex;
+
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <h1>Stocks market </h1>
+    <input class="megaMenuButtons" type="button" value="One note" id="addStock"><br>
+
+    <div class="flex-container">
+        <fieldset id="selector">
+            Minute
+            <% stockData.minute.forEach(function(date){ %>
+                <option><%= date%></option>
+                <option></option>
+                <% }) %>
+        </fieldset>
+        <fieldset id="selector">
+            High
+            <% stockData.high.forEach(function(date){ %>
+                <option><%= date%></option>
+                <option></option>
+                <% }) %>
+        </fieldset>
+        <fieldset id="selector">
+            Low
+            <% stockData.low.forEach(function(date){ %>
+                <option><%= date%></option>
+                <option></option>
+                <% }) %>
+        </fieldset>
+        <fieldset id="selector">
+            Volume
+            <% stockData.volume.forEach(function(date){ %>
+                <option><%= date%></option>
+                <option></option>
+                <% }) %>
+        </fieldset>
+        <fieldset id="selector">
+            NumberOfTrades
+            <% stockData.numberOfTrades.forEach(function(date){ %>
+                <option><%= date%></option>
+                <option></option>
+                <% }) %>
+        </fieldset>
+        <fieldset id="selector">
+            Open
+            <% stockData.open.forEach(function(date){ %>
+                <option><%= date%></option>
+                <option></option>
+                <% }) %>
+        </fieldset>
+        <fieldset id="selector">
+            Close
+            <% stockData.close.forEach(function(date){ %>
+                <option><%= date%></option>
+                <option></option>
+                <% }) %>
+        </fieldset>
+
+
+    </div>
+
+</body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+    var temp = <% - 1 %>;
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(temp
+
+
+            // Treat first row as data as well.
+            , true);
+
+        var options = {
+            legend: 'none'
+        };
+
+        var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+    }
+
+
+</script>
+
+</html>

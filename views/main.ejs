@@ -1,0 +1,35 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+body {
+    width: 80%;
+    position: relative;
+}
+#selector{
+    width:120px;
+    position:relative;
+
+}
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+</style>
+
+</head>
+
+<body>
+    <h1>Stocks market </h1>
+    <input class="megaMenuButtons" type="button" value = "One note" id="addStock"><br>
+
+    <div class ="flex-container">
+            <% allStocks.forEach(function(date){ %>
+      <a href ="/<%=date %>"><%=date %></a>
+            <% }) %>
+     </div>
+    </body>
+
+</html>
