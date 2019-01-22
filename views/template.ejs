@@ -26,8 +26,18 @@
 
 <body>
     <h1>Stocks market </h1>
-    <input class="megaMenuButtons" type="button" value="One note" id="addStock"><br>
+  
+    <button id="oneMinute"> 1 minute"</button>
+    <button id="fiveMinute" > 5 minute"</button><br>
+    <fieldset id="selector">
+        Research
+        <% alertCounter.alertCounter.forEach(function(date){ %>
+            <option><%= date%></option>
+            <option></option>
+            <% }) %>
+    </fieldset>
 
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
     <div class="flex-container">
         <fieldset id="selector">
             Minute
@@ -79,33 +89,94 @@
                 <% }) %>
         </fieldset>
 
-
+   
     </div>
-
+    <div id="chart_div" style="width: 1200px; height: 500px;"></div>
 </body>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 <script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
-    var temp = <% - 1 %>;
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  
+function drawChart() {
+    
+var data = google.visualization.arrayToDataTable(<%-JSON.stringify(fiveMinuteChart.fiveMinuteChart)%>, true);
 
-    function drawChart() {
+  // Treat first row as data as well.
 
-        var data = google.visualization.arrayToDataTable(temp
+var options = {
+  legend:'none',
+  colors:['red','green'],
+  
+  candlestick:{fallingColor:{fill: 'red'}},
+  candlestick:{fallingColor:{stroke: 'red'}},
+  candlestick:{fallingColor:{strokeWidth: 5}},
+  candlestick:{risingColor:{fill: 'green'}},
+  candlestick:{risingColor:{stroke: 'green'}},
+};
 
+var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
 
-            // Treat first row as data as well.
-            , true);
+chart.draw(data, options);
+}
 
-        var options = {
-            legend: 'none'
-        };
+document.getElementById('fiveMinute').addEventListener('click',function(){
+    
+    google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  
+function drawChart() {
+    
+var data = google.visualization.arrayToDataTable(<%-JSON.stringify(fiveMinuteChart.fiveMinuteChart)%>, true);
 
-        var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+  // Treat first row as data as well.
 
-        chart.draw(data, options);
+var options = {
+  legend:'none',
+  colors:['red','green'],
+  
+  candlestick:{fallingColor:{fill: 'red'}},
+  candlestick:{fallingColor:{stroke: 'red'}},
+  candlestick:{fallingColor:{strokeWidth: 5}},
+  candlestick:{risingColor:{fill: 'green'}},
+  candlestick:{risingColor:{stroke: 'green'}},
+};
 
+var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+chart.draw(data, options);
+}
+
+});
+
+document.getElementById('oneMinute').addEventListener('click',function(){   
+    
+    google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {    
+        var data = google.visualization.arrayToDataTable(<%-JSON.stringify(stockData.chart)%>, true);    
+      // Treat first row as data as well.
+    
+    var options = {
+      legend:'none',
+      colors:['red','green'],
+      
+      candlestick:{fallingColor:{fill: 'red'}},
+      candlestick:{fallingColor:{stroke: 'red'}},
+      candlestick:{fallingColor:{strokeWidth: 5}},
+      candlestick:{risingColor:{fill: 'green'}},
+      candlestick:{risingColor:{stroke: 'green'}},
+    };
+    
+    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+    
+    chart.draw(data, options);
     }
+
+
+});
+
 
 
 </script>
