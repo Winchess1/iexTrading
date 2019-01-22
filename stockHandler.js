@@ -25,7 +25,7 @@ function extractor(cb, id) {
     var body =[];  
       body.data =JSON.parse(data).data;
 
-    request(sortedStocks, function (error, response, bodys) {//change bodys to body to get real time quotes
+    request(sortedStocks, function (error, response, body) {//change bodys to body to get real time quotes
 
         console.log('\t\terror:', error); // Print the error if one occurred
         console.log('\t\tstatusCode:', response && response.statusCode);// Print the response status code if a response was received
