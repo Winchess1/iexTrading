@@ -11,10 +11,7 @@ function getIextrading(cb) {
         requestCert: true,
         agent: false
     }
-
-
     request(allStocks, function (error, response, body) {
-
         console.log("\tgrabbing and extracting the Stocks from API");
         collection.stock = _.map(
             _.filter(body, function (data) {
@@ -27,8 +24,8 @@ function getIextrading(cb) {
         //console.log(collection.stock);    
         cb(collection.stock);
 
-        console.log('\terror:', error); // Print the error if one occurred
-        console.log('\tstatusCode:', response && response.statusCode);// Print the response status code if a response was received
+        console.log('\t\terror:', error); // Print the error if one occurred
+        console.log('\t\tstatusCode:', response && response.statusCode);// Print the response status code if a response was received
     });
 
 }
