@@ -25,157 +25,194 @@
 </head>
 
 <body>
-    <h1>Stocks market </h1>
-  
-    <button id="oneMinute"> 1 minute"</button>
-    <button id="fiveMinute" > 5 minute"</button><br>
-    <fieldset id="selector">
-        Research
-        <% alertCounter.alertCounter.forEach(function(date){ %>
-            <option><%= date%></option>
-            <option></option>
-            <% }) %>
-    </fieldset>
+    <% if (historyDate!=undefined){%>
+        <h1>Stocks market
+            <%= historyDate.bday %>
+        </h1>
+        <%}%>
+            <a id="back" href="/">Back</a>
+            <form id='calendar' method='post'>
+                Calendar:
+                <input type="date" name='bday'>
+                <input type="submit">
+            </form>
+            <form id='stock' method='post'>
+                    Stock:
+                    <input type="text" name='stock'>
+                    <input type="submit">
+                </form>
+            <button id="oneMinute"> 1 minute"</button>
+            <button id="fiveMinute"> 5 minute"</button><br>
+            <fieldset id="selector">
+                Research uptrend
+                <% alertCounter.alertCounterHigh.forEach(function(date){ %>
+                    <option>
+                        <%= date%>
+                    </option>
+                    <option></option>
+                    <% }) %>
+                        downtrend
+                        <% alertCounter.alertCounterLow.forEach(function(date){ %>
+                            <option>
+                                <%= date%>
+                            </option>
+                            <option></option>
+                            <% }) %>
+            </fieldset>
 
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-    <div class="flex-container">
-        <fieldset id="selector">
-            Minute
-            <% stockData.minute.forEach(function(date){ %>
-                <option><%= date%></option>
-                <option></option>
-                <% }) %>
-        </fieldset>
-        <fieldset id="selector">
-            High
-            <% stockData.high.forEach(function(date){ %>
-                <option><%= date%></option>
-                <option></option>
-                <% }) %>
-        </fieldset>
-        <fieldset id="selector">
-            Low
-            <% stockData.low.forEach(function(date){ %>
-                <option><%= date%></option>
-                <option></option>
-                <% }) %>
-        </fieldset>
-        <fieldset id="selector">
-            Volume
-            <% stockData.volume.forEach(function(date){ %>
-                <option><%= date%></option>
-                <option></option>
-                <% }) %>
-        </fieldset>
-        <fieldset id="selector">
-            NumberOfTrades
-            <% stockData.numberOfTrades.forEach(function(date){ %>
-                <option><%= date%></option>
-                <option></option>
-                <% }) %>
-        </fieldset>
-        <fieldset id="selector">
-            Open
-            <% stockData.open.forEach(function(date){ %>
-                <option><%= date%></option>
-                <option></option>
-                <% }) %>
-        </fieldset>
-        <fieldset id="selector">
-            Close
-            <% stockData.close.forEach(function(date){ %>
-                <option><%= date%></option>
-                <option></option>
-                <% }) %>
-        </fieldset>
+            <div id="chart_div" style="width: 900px; height: 500px;"></div>
+            <div class="flex-container">
+                <fieldset id="selector">
+                    Minute
+                    <% stockData.minute.forEach(function(date){ %>
+                        <option>
+                            <%= date%>
+                        </option>
+                        <option></option>
+                        <% }) %>
+                </fieldset>
+                <fieldset id="selector">
+                    High
+                    <% stockData.high.forEach(function(date){ %>
+                        <option>
+                            <%= date%>
+                        </option>
+                        <option></option>
+                        <% }) %>
+                </fieldset>
+                <fieldset id="selector">
+                    Low
+                    <% stockData.low.forEach(function(date){ %>
+                        <option>
+                            <%= date%>
+                        </option>
+                        <option></option>
+                        <% }) %>
+                </fieldset>
+                <fieldset id="selector">
+                    Volume
+                    <% stockData.volume.forEach(function(date){ %>
+                        <option>
+                            <%= date%>
+                        </option>
+                        <option></option>
+                        <% }) %>
+                </fieldset>
+                <fieldset id="selector">
+                    NumberOfTrades
+                    <% stockData.numberOfTrades.forEach(function(date){ %>
+                        <option>
+                            <%= date%>
+                        </option>
+                        <option></option>
+                        <% }) %>
+                </fieldset>
+                <fieldset id="selector">
+                    Open
+                    <% stockData.open.forEach(function(date){ %>
+                        <option>
+                            <%= date%>
+                        </option>
+                        <option></option>
+                        <% }) %>
+                </fieldset>
+                <fieldset id="selector">
+                    Close
+                    <% stockData.close.forEach(function(date){ %>
+                        <option>
+                            <%= date%>
+                        </option>
+                        <option></option>
+                        <% }) %>
+                </fieldset>
 
-   
-    </div>
-    <div id="chart_div" style="width: 1200px; height: 500px;"></div>
+
+            </div>
+            <div id="chart_div" style="width: 1200px; height: 500px;"></div>
 </body>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-  
-function drawChart() {
-    
-var data = google.visualization.arrayToDataTable(<%-JSON.stringify(fiveMinuteChart.fiveMinuteChart)%>, true);
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
 
-  // Treat first row as data as well.
+    function drawChart() {
 
-var options = {
-  legend:'none',
-  colors:['red','green'],
-  
-  candlestick:{fallingColor:{fill: 'red'}},
-  candlestick:{fallingColor:{stroke: 'red'}},
-  candlestick:{fallingColor:{strokeWidth: 5}},
-  candlestick:{risingColor:{fill: 'green'}},
-  candlestick:{risingColor:{stroke: 'green'}},
-};
+        var data = google.visualization.arrayToDataTable(<%- JSON.stringify(fiveMinuteChart.fiveMinuteChart) %>, true);
 
-var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+        // Treat first row as data as well.
 
-chart.draw(data, options);
-}
+        var options = {
+            legend: 'none',
+            colors: ['red', 'green'],
 
-document.getElementById('fiveMinute').addEventListener('click',function(){
-    
-    google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-  
-function drawChart() {
-    
-var data = google.visualization.arrayToDataTable(<%-JSON.stringify(fiveMinuteChart.fiveMinuteChart)%>, true);
+            candlestick: { fallingColor: { fill: 'red' } },
+            candlestick: { fallingColor: { stroke: 'red' } },
+            candlestick: { fallingColor: { strokeWidth: 5 } },
+            candlestick: { risingColor: { fill: 'green' } },
+            candlestick: { risingColor: { stroke: 'green' } },
+        };
 
-  // Treat first row as data as well.
+        var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
 
-var options = {
-  legend:'none',
-  colors:['red','green'],
-  
-  candlestick:{fallingColor:{fill: 'red'}},
-  candlestick:{fallingColor:{stroke: 'red'}},
-  candlestick:{fallingColor:{strokeWidth: 5}},
-  candlestick:{risingColor:{fill: 'green'}},
-  candlestick:{risingColor:{stroke: 'green'}},
-};
-
-var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
-chart.draw(data, options);
-}
-
-});
-
-document.getElementById('oneMinute').addEventListener('click',function(){   
-    
-    google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {    
-        var data = google.visualization.arrayToDataTable(<%-JSON.stringify(stockData.chart)%>, true);    
-      // Treat first row as data as well.
-    
-    var options = {
-      legend:'none',
-      colors:['red','green'],
-      
-      candlestick:{fallingColor:{fill: 'red'}},
-      candlestick:{fallingColor:{stroke: 'red'}},
-      candlestick:{fallingColor:{strokeWidth: 5}},
-      candlestick:{risingColor:{fill: 'green'}},
-      candlestick:{risingColor:{stroke: 'green'}},
-    };
-    
-    var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-    
-    chart.draw(data, options);
+        chart.draw(data, options);
     }
 
+    document.getElementById('fiveMinute').addEventListener('click', function () {
 
-});
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable(<%- JSON.stringify(fiveMinuteChart.fiveMinuteChart) %>, true);
+
+            // Treat first row as data as well.
+
+            var options = {
+                legend: 'none',
+                colors: ['red', 'green'],
+
+                candlestick: { fallingColor: { fill: 'red' } },
+                candlestick: { fallingColor: { stroke: 'red' } },
+                candlestick: { fallingColor: { strokeWidth: 5 } },
+                candlestick: { risingColor: { fill: 'green' } },
+                candlestick: { risingColor: { stroke: 'green' } },
+            };
+
+            var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+
+    });
+
+    document.getElementById('oneMinute').addEventListener('click', function () {
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(<%- JSON.stringify(stockData.chart) %>, true);
+            // Treat first row as data as well.
+
+            var options = {
+                legend: 'none',
+                colors: ['red', 'green'],
+
+                candlestick: { fallingColor: { fill: 'red' } },
+                candlestick: { fallingColor: { stroke: 'red' } },
+                candlestick: { fallingColor: { strokeWidth: 5 } },
+                candlestick: { risingColor: { fill: 'green' } },
+                candlestick: { risingColor: { stroke: 'green' } },
+            };
+
+            var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+
+
+    });
 
 
 
