@@ -3,11 +3,19 @@ const app = express();
 const getIextrading = require('./stockfilter');
 const extractor = require('./stockHandler');
 const tda = require('./tda');
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
+const https = require('https');
+
 
 //const temp = require('./temp');
 //const history = require('./historySaveModule');
 const bodyParser = require('body-parser');
 
+var privateKey  = fs.readFileSync(path.join('keys', 'key.pem'), 'utf8');
+var certificate = fs.readFileSync(path.join('keys', 'cert.pem'), 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -105,3 +113,9 @@ console.log(typeof(req.body.date));
 
 
 app.listen(port, console.log('server online'));	
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+
+//Set to 8080, but can be any port, code will only come over https, even if you specified http in your Redirect URI
+httpServer.listen(8080);
+httpsServer.listen(443);
