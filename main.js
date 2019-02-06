@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const getIextrading = require('./stockfilter');
 const extractor = require('./stockHandler');
+const tda = require('./tda');
+
 //const temp = require('./temp');
 //const history = require('./historySaveModule');
 const bodyParser = require('body-parser');
@@ -19,6 +21,25 @@ app.get('/', (req, res) => {
         res.render('main', { allStocks: stocks }, console.log("page is loaded"));
     })
 
+});
+
+app.get('/key', function (req, res) {
+
+    // if we don't have the key in query string - that means we just opened in
+    if (typeof req.query.code === "undefined") {
+        var accessKey = tda.getAccessKey();
+        res.render('key', { key: accessKey, require });
+        return;
+    }
+
+    // requesting the access key
+    tda.requestToken(req.query.code, (error, accessKey) => {
+        if (error == null) {
+            res.redirect('/key')
+        } else {
+            res.render('key', { error: error.error, statusCode: error.statusCode, body: error.body, require });
+        }
+    })
 });
 
 app.get('/favicon.ico', (req, res) => res.status(204));
